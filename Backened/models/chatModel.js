@@ -9,7 +9,7 @@ const chatModel=mongoose.Schema(
             ref:"User",
         },
         ],
-        latestmessage:{
+        latestMessage:{
             type:mongoose.Schema.Types.ObjectId,
             ref:"Message",
         },
@@ -23,7 +23,7 @@ const chatModel=mongoose.Schema(
     }
 );
 const Chat =mongoose.model("Chat",chatModel);
-module.exports={Chat};
+module.exports=Chat;
 
 // chatName
 // isGroupChat
