@@ -53,7 +53,11 @@ var isChat = await Chat.find({
 const fetchChats = asyncHandler(async (req, res) => {
   try {
     Chat
-      .find({ users: { $eleMatch: { $eq: req.user._id } } })
+      .find({ users:
+        //  { $eleMatch: { $eq:  //Commented to resolve error fetching chats
+          req.user._id 
+        // } }
+       })
       .populate("users", "-password")
       .populate("groupAdmin", "-password")
       .populate("latestMessage")
