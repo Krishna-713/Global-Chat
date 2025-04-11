@@ -8,7 +8,8 @@ import {
   Input,
   Spinner,
 } from "@chakra-ui/react";
-import react, { useState } from "react";
+// import react from "react";
+import  { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -60,7 +61,7 @@ const UpdatedGroupChatModal = ({ fetchAgain, setFetchAgain , fetchMessages}) => 
         },
         config
       );
-      user1._id == user._id ?setSelectedChat():setSelectedChat(data);
+      user1._id === user._id ?setSelectedChat():setSelectedChat(data);
       // console.log("setFetchAgain", setFetchAgain);
       setFetchAgain?.(!fetchAgain);
       // console.log("setFetchAgain", setFetchAgain);

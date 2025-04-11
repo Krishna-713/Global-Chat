@@ -1,4 +1,4 @@
-import react from "react";
+// import react from "react";
 import ScrollableFeed from 'react-scrollable-feed';
 import { isLastMessage, isSameSender, isSameSenderMargin, isSameUser } from "../config/ChatLogics";
 import { ChatState } from "../Context/chatProvider";

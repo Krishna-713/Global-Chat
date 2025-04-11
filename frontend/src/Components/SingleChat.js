@@ -1,4 +1,5 @@
-import react, { useEffect, useState } from "react";
+// import react
+import { useEffect, useState } from "react";
 import { ChatState } from "../Context/chatProvider";
 import {
   Box,
@@ -27,7 +28,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState();
-  const { user, selectedChat, setSelectedChat } = ChatState();
+  const { user, selectedChat, setSelectedChat,notification,setNotification } = ChatState();
   const [socketConnected,setSocketConnected]=useState(false);
   const [typing,setTyping] =useState(false);
   const [isTyping,setIsTyping]= useState(false);
@@ -86,10 +87,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     socket.on('stop typing' ,() => setIsTyping(false));
     
   },[]);
+  console.log(notification,"---------");
   useEffect(() =>{
     socket.on('Message recieved',(newMessageRecieved) =>{
       if (!selectedChatCompare || selectedChatCompare._id !==  newMessageRecieved.chat._id ){
         // give notification
+        if(!notification.includes(newMessageRecieved)){
+          setNotification([newMessageRecieved,...notification]);
+          setFetchAgain?.(!fetchAgain);
+        }
       }else{
         setMessages([...messages,newMessageRecieved]);
         // setMessages((prevMessages) => [...prevMessages, newMessageRecieved]);
@@ -136,6 +142,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     setNewMessage(e.target.value);
 
     //Typing Indicator Logic
+
 
     if(!socketConnected)   return;
     if(!typing){
