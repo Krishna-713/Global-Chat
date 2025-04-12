@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon Backened/server.js"
+    "start": "node Backened/server.js",
+    "server" : "nodemon Backened/server.js",
+    "build" : "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Krishna",
   "license": "ISC",

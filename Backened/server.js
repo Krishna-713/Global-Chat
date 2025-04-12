@@ -7,7 +7,7 @@ const userRoutes=require("./routes/userRoutes");
 const chatRoutes=require("./routes/chatRoutes");
 const {notFound,errorHandler}=require('./middleware/errorMiddleware');
 const messageRoutes =require("./routes/messageRoutes");
-// const { Server } = require("socket.io");
+const path =require('path');
 
 dotenv.config();
 
@@ -16,28 +16,47 @@ const app = express();
 
 app.use(express.json()); // to access JSON Data
 
-app.get("/",(req,res) =>{
-    res.send("API is running"); 
+// app.get("/",(req,res) =>{
+//     res.send("API is running"); 
 
-})
+// })
 app.use("/api/user",userRoutes); 
+// app.use("/",userRoutes); 
+// app.get('/', function(req, res) {
+//     // var string = encodeURIComponent('something that would break');
+//     res.redirect('/api/user');
+//   });
 app.use("/api/chat",chatRoutes);
 app.use("/api/message",messageRoutes);
+
+// -------------Deployment --------
+
+const __dirname1 =path.resolve();
+// console.log("Serving from:", path.join(__dirname1, "/frontend/build"));
+console.log(process.env.NODE_ENV);
+
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static(path.join(__dirname1,"/frontend/build")));
+
+
+    app.get('*',(req,res) =>{
+        res.sendFile(path.resolve(__dirname1,"frontend","build" , "index.html"));
+    })
+}else{
+    app.get("/",(req,res) =>{
+        res.send("API is Running Successfully");
+    })
+}
+
+// -------------Deployment----------
+
 
 app.use(notFound);
 app.use(errorHandler);
 
-// app.get("/api/chat",(req,res) =>{
-//     res.send(chats);
-// });
-// app.get('/api/chat/:id',(req,res)=>{
-//     // console.log(req.params.id);
-//     const singleChat = chats.find((c) => c._id === req.params.id);
-//     res.send(singleChat);
-// });
 
 const PORT=process.env.PORT || 5000
-const server= app.listen(PORT ,console.log(`API is running at Port ${PORT}`.yellow.bold));
+const server= app.listen(PORT ,console.log(`API is running at Port ${PORT} `.yellow.bold));
 
 const io =require('socket.io')(server,{
     pingTimeout : 60000,
